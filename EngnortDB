@@ -1,0 +1,43 @@
+CREATE DATABASE EngnortDB;
+
+USE EngnortDB;
+
+-- Tabela de Funcionários
+CREATE TABLE Employees (
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(50),
+    position VARCHAR(100),
+    salary DECIMAL(10, 2) NOT NULL
+);
+
+-- Tabela de Horas Extras
+CREATE TABLE Overtime (
+    overtime_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,
+    date DATE NOT NULL,
+    hours DECIMAL(5, 2) NOT NULL,
+    rate DECIMAL(10, 2) NOT NULL,
+    total_payment DECIMAL(10, 2) AS (hours * rate) STORED,
+    FOREIGN KEY (employee_id) REFERENCES Employees(employee_id)
+);
+
+-- Tabela de Itens (Estoque)
+CREATE TABLE Items (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    quantity INT NOT NULL,
+    unit_cost DECIMAL(10, 2) NOT NULL,
+    total_cost DECIMAL(10, 2) AS (quantity * unit_cost) STORED
+);
+
+-- Tabela de Relatórios
+CREATE TABLE Reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    report_type VARCHAR(100),
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    summary TEXT,
+    detailed_report TEXT
+);
